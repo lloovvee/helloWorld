@@ -34,7 +34,7 @@ struct ioctlUsrInfo {
 	参　数：struct inode*, strcut file*;
 	返回值：成功打开字符设备 返回 0；
 	函数功能：打开用于操作PCIe设备而注册的字符设备,并将"PCIe设备私有数据结构"传递给字符设备文件描述中的flip->private_data字段。
- * */
+ */
 int pcieCardOpen( struct inode * inode, struct file *flip)
 {
 	struct pcieCardPrivate * card = ( struct pcieCardPrivate *) container_of(
@@ -69,7 +69,8 @@ static int pcieDeviceInit ( struct pcieCardPrivate * cardPrivateData)
 	iowrite32( setValue, cardPrivateData->bar0MapedAddr + DCSR0);
 	chkValue = ioread32( cardPrivateData->bar0MapedAddr + DCSR0);
 	PCIE_DEBUG( "DCSR0: setValue:%x,chkValue:%x\n",setValue,chkValue);
-	/* 中断管理 
+	/* 
+		中断管理 
 		使能DMA传输完成中断、使能DMA写请求中断	
 	*/
 	setValue = chkValue = 0;
@@ -175,7 +176,7 @@ static int createWriteResource ( struct pcieCardPrivate * cardPrivateData)
 	参  数：struct inode *, struct file *;
 	返回值：0 成功
 	函数功能：适当时候将设设备注销掉
- * */
+*/
 int pcieCardRelease ( struct inode * inode, struct file *flip)
 {
 	flip->private_data = NULL;
@@ -183,14 +184,14 @@ int pcieCardRelease ( struct inode * inode, struct file *flip)
 }	
 
 /*
- *	函数名：pcieCardRead
+ 	函数名：pcieCardRead
 	参　数：
 	返回值：　读取成功，返回值为0 *	
 		  读取数据失败，返回值为一个负数　
 			-1 读取pcie设备是否可读信息失败　
 			-2 获取本次所读取数据的长度信息错误 		
 	函数功能： 读取pcie设备上的数据
- * */
+*/
 ssize_t pcieCardRead( struct file * file, char __user * buff, size_t count, loff_t *f_ops) 
 {
 
